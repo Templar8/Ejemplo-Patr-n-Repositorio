@@ -4,30 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ejemplo_repositorio.Repositories
 {
-    public class BookRepository : IBookRepository, IDisposable
+    public class BookRepository : GenericRepository<Book>, IBookRepository, IDisposable
     {
         private readonly LibraryContext _bookContext;
         public BookRepository(LibraryContext context)
+            :base(context)
         {
             this._bookContext = context;
-        }
-
-        public void AddBook(Book book)
-        {
-            this._bookContext.Books.Add(book);
-        }
-
-        public void DeleteBook(int bookId)
-        {
-            Book book = this.GetBook(bookId);
-            this._bookContext.Books.Remove(book);
-        }
-
-
-        public Book GetBook(int bookId)
-        {
-            return this._bookContext.Books.Find(bookId);
-        }
+        }        
 
         public IEnumerable<Book> GetBooks()
         {

@@ -3,28 +3,14 @@ using Ejemplo_repositorio.Models;
 
 namespace Ejemplo_repositorio.Repositories
 {
-    public class ShelvingRepository : IShelvingRepository
+    public class ShelvingRepository :  GenericRepository<Shelving>, IGenericRepository<Shelving>
     {
-
         private readonly LibraryContext _libraryContext;
         public ShelvingRepository(LibraryContext context)
+            :base(context)
         {
             this._libraryContext = context;
-        }
-        public void AddShelving(Shelving shelving)
-        {
-            this._libraryContext.Shelvings.Add(shelving);
-        }
-
-        public void DeleteShelving(int shelvingId)
-        {
-            this._libraryContext.Shelvings.Remove(this.GetShelving(shelvingId));
-        }
-
-        public Shelving GetShelving(int shelvingId)
-        {
-            return this._libraryContext.Shelvings.Find(shelvingId);
-        }
+        }        
 
         public IEnumerable<Shelving> GetShelvings()
         {

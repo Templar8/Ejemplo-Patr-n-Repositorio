@@ -2,8 +2,7 @@
 
 namespace Ejemplo_repositorio.Repositories
 {
-    public class GenericRepository<T> 
-        where T : class, IGenericRepository<T>
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly LibraryContext _context;
         public GenericRepository(LibraryContext context)
@@ -11,17 +10,17 @@ namespace Ejemplo_repositorio.Repositories
             this._context = context;
         }
 
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             this._context.Add(entity);
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             this._context.Remove(entity);
         }
 
-        public T Get(int id)
+        public virtual T Get(int id)
         {
             return this._context.Find<T>(id);
         }
