@@ -6,5 +6,6 @@
         void Add(T entity);
         void Delete(T Entity);
         T Get(int id);
+        void Save();
     }
 }

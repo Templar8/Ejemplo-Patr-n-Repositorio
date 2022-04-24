@@ -24,5 +24,10 @@ namespace Ejemplo_repositorio.Repositories
         {
             return this._context.Find<T>(id);
         }
+
+        public virtual void Save()
+        {
+            this._context.SaveChanges();
+        }
     }
 }
