@@ -49,7 +49,7 @@ namespace Ejemplo_repositorio.Controllers
                 return NotFound();
             }
 
-            var book = this._bookRepository.GetBook(id.Value);
+            var book = this._bookRepository.Get(id.Value);
             if (book == null)
             {
                 return NotFound();
@@ -73,7 +73,7 @@ namespace Ejemplo_repositorio.Controllers
         {
             if (ModelState.IsValid)
             {
-                this._bookRepository.AddBook(book);
+                this._bookRepository.Add(book);
                 this._bookRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -88,7 +88,7 @@ namespace Ejemplo_repositorio.Controllers
                 return NotFound();
             }
 
-            var book = this._bookRepository.GetBook(id.Value);
+            var book = this._bookRepository.Get(id.Value);
             if (book == null)
             {
                 return NotFound();
@@ -139,7 +139,7 @@ namespace Ejemplo_repositorio.Controllers
                 return NotFound();
             }
 
-            var book = this._bookRepository.GetBook(id.Value);
+            var book = this._bookRepository.Get(id.Value);
             if (book == null)
             {
                 return NotFound();
@@ -153,14 +153,15 @@ namespace Ejemplo_repositorio.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            this._bookRepository.DeleteBook(id);
+            Book book = this._bookRepository.Get(id);
+            this._bookRepository.Delete(book);
             this._bookRepository.Save();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
         {
-            return this._bookRepository.GetBook(id) != null;
+            return this._bookRepository.Get(id) != null;
         }
     }
 }

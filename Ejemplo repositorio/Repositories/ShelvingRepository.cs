@@ -3,7 +3,7 @@ using Ejemplo_repositorio.Models;
 
 namespace Ejemplo_repositorio.Repositories
 {
-    public class ShelvingRepository :  GenericRepository<Shelving>, IGenericRepository<Shelving>
+    public class ShelvingRepository :  GenericRepository<Shelving>, IShelvingRepository
     {
         private readonly LibraryContext _libraryContext;
         public ShelvingRepository(LibraryContext context)

@@ -48,7 +48,7 @@ namespace Ejemplo_repositorio.Controllers
                 return NotFound();
             }
 
-            var shelving = this._shelvingRepository.GetShelving(id.Value);
+            var shelving = this._shelvingRepository.Get(id.Value);
             if (shelving == null)
             {
                 return NotFound();
@@ -72,7 +72,7 @@ namespace Ejemplo_repositorio.Controllers
         {
             if (ModelState.IsValid)
             {
-                this._shelvingRepository.AddShelving(shelving);
+                this._shelvingRepository.Add(shelving);
                 this._shelvingRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -87,7 +87,7 @@ namespace Ejemplo_repositorio.Controllers
                 return NotFound();
             }
 
-            var shelving = this._shelvingRepository.GetShelving(id.Value);
+            var shelving = this._shelvingRepository.Get(id.Value);
             if (shelving == null)
             {
                 return NotFound();
@@ -138,7 +138,7 @@ namespace Ejemplo_repositorio.Controllers
                 return NotFound();
             }
 
-            var shelving = this._shelvingRepository.GetShelving(id.Value);
+            var shelving = this._shelvingRepository.Get(id.Value);
             if (shelving == null)
             {
                 return NotFound();
@@ -152,14 +152,15 @@ namespace Ejemplo_repositorio.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            this._shelvingRepository.DeleteShelving(id);
+            Shelving shelving = this._shelvingRepository.Get(id);
+            this._shelvingRepository.Delete(shelving);
             this._shelvingRepository.Save();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ShelvingExists(int id)
         {
-            return this._shelvingRepository.GetShelving(id) != null;
+            return this._shelvingRepository.Get(id) != null;
         }
     }
 }
