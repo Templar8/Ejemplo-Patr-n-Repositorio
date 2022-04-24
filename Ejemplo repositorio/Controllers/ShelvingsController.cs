@@ -16,13 +16,27 @@ namespace Ejemplo_repositorio.Controllers
     {
         private readonly LibraryContext _context;
         private IShelvingRepository _shelvingRepository;
+        private IBookRepository _bookRepository;
+        private readonly UnitOfWork _unitOfWork;
 
         public ShelvingsController(LibraryContext context)
         {
-            this._context = context;
+            this._unitOfWork = new UnitOfWork(context);
         }
 
-        private IShelvingRepository ShelvingRepository
+        public IBookRepository BookRepository
+        {
+            get
+            {
+                if (this._bookRepository == null)
+                {
+                    this._bookRepository = new BookRepository(this._context);
+                }
+                return this._bookRepository;
+            }
+        }
+
+        public IShelvingRepository ShelvingRepository
         {
             get
             {
@@ -150,11 +164,17 @@ namespace Ejemplo_repositorio.Controllers
         // POST: Shelvings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id, bool DeleteShelvingBooks)
         {
-            Shelving shelving = this._shelvingRepository.Get(id);
-            this._shelvingRepository.Delete(shelving);
-            this._shelvingRepository.Save();
+            Shelving shelving = this._unitOfWork.ShelvingRepository.Get(id);
+            if (DeleteShelvingBooks)
+            {
+                Array.ForEach(shelving.Books, B => {
+                    this._unitOfWork.BookRepository.Delete(B);
+                });
+            }
+            this._unitOfWork.ShelvingRepository.Delete(shelving);
+            this._unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
 
